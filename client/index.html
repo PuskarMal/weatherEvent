@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  
+</head>
+
+<body>
+  <div style="padding: 10px 0px ;">
+    <aside class="nav-section">
+      <nav>
+        <img src="/static/logo.png" alt="logo" />
+        <ul>
+          <li><a href="#"><ion-icon name="home-outline"></ion-icon>&nbsp;&nbsp;<span>Home</span></a></li>
+          <li><a href="blog.html"><ion-icon name="newspaper-outline"></ion-icon>&nbsp;&nbsp;<span>Blogs</span></a></li>
+          <li><a href="map.html"><ion-icon name="locate-outline"></ion-icon>&nbsp;&nbsp;<span>Map</span></a></li>
+          
+        </ul>
+        <ul class="nav-links">
+          <li><ion-icon name="log-out-outline"></ion-icon><span>Log out</span></li>
+        </ul>
+      </nav>
+    </aside>
+    <header>
+    <section class="header-section">
+      <div class="location-box">
+        <ion-icon name="location-outline"></ion-icon>
+        <span id="resultSpan">No city selected</span>
+      </div>
+      <div class="search-box">
+        <input id="city" type="text" placeholder="Enter city name" />
+        <ion-icon name="search-outline" id="getCity" class="search-icon" role="button" tabindex="0"></ion-icon>
+      </div>
+      <div class="icon-box">
+  <ion-icon id="calendarIcon" name="calendar-outline" title="Select date"></ion-icon>
+  <ion-icon id="notifIcon" name="notifications-outline" title="Notifications"></ion-icon>
+</div>
+
+    </section>
+  </header>
+
+
+
+  <dashboard>
+    <section class="dashboard-section">
+      <div class="home">
+        <div class="feed-1">
+          <div class="feeds">
+            <div>
+              <div id="result"></div>
+            </div>
+          </div>
+          <div class="feed" id="historyFeed"></div>
+        </div>
+
+        <div class="highlights">
+          <h2>Today's Highlights</h2>
+          <div class="all-highlights">
+            <div><img src="/static/hot.png" style="height: 50px; width:50px;" alt="" /><span id="hot"></span></div>
+            <div><img src="/static/temperature.png" style="height: 50px; width:50px;" alt="" /><span id="temperature"></span></div>
+            <div><img src="/static/humidity.png" alt="" /><span id="humidity"></span></div>
+                 <div><img src="/static/dust.png" alt="" /><span id="visibility"></span></div>
+            <div><img src="/static/pressure.png" alt="" /><span id="pressure"></span></div>
+            <div><img src="/static/wind.png" alt="" /><span id="wind"></span></div>
+            <div><img src="/static/wind.png" alt="" /><span id="wind-deg"></span></div>
+       
+            <div><img src="/static/sea.png" alt="" /><span id="sea"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cities">
+        <h2>Other Cities</h2>
+        <div class="all-cities" id="otherCities">
+          <div id="forKolkata"></div>
+          <div id="forDelhi"></div>
+          <div id="forLondon"></div>
+          <div id="forBeijing"></div>
+        </div>
+      </div>
+    </section>
+  </dashboard>
+    
+</div>
+<section id="eventContainer">
+<div id="event" style="border: 4px solid white">
+  <h1>~ Event Planner ~</h1>
+    <form id="eventForm">
+        <input type="text" id="eventTitle" placeholder="Event Title" required/> 
+        <select id="priority" required>
+            <option value="High">High</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Low">Low</option>
+        </select>
+        
+        <input type="date" id="eventDate" required/>
+        <input type="time" id="eventTime" required/> 
+         <input type="text" id="eventPlace" placeholder="Enter Place (Default - Home)"/>
+         
+         <input type="text" id="desc" placeholder="Description" />
+         
+        <button type="submit">Add Event</button> 
+        <button type="edit" style="color:green; background-color: white; border:2px solid green;">Edit Event</button> 
+    </form>
+  <div class="controls">
+        <input type="text" id="searchInput" placeholder="Search events..."> 
+        <select id="filterSelect"> 
+            <option value="all">All Events</option> 
+            <option value="upcoming">Upcoming</option> 
+            <option value="completed">Completed</option> 
+        </select>
+    </div>
+
+
+    <ul class="events" id="eventsContainer"></ul> 
+    <div style="display: flex; gap: 20px; justify-content: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: small;" id="caption">
+  <div style="display: flex; align-items: center; gap: 6px;">
+    <div style="width: 16px; height: 16px; background-color: rgb(255, 47, 0); border-radius: 3px;"></div>
+    <span>High</span>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 6px;">
+    <div style="width: 16px; height: 16px; background-color: rgb(17, 0, 255); border-radius: 3px;"></div>
+    <span>Moderate</span>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 6px;">
+    <div style="width: 16px; height: 16px; background-color: rgb(223, 239, 47); border-radius: 3px;"></div>
+    <span>Low</span>
+  </div>
+</div>
+
+</div>
+</section>
+<!-- Calendar Modal -->
+<!-- Calendar Popup Modal -->
+<div id="calendarPopup" style="display: none;">
+  <div class="calendar-overlay">
+    <div class="calendar-box">
+      <div class="calendar-header">
+        <span id="prevMonth">&lt;</span>
+        <span id="calendarMonth"></span>
+        <span id="nextMonth">&gt;</span>
+      </div>
+      <div id="calendarGrid" class="calendar-grid"></div>
+      <div id="eventDetails" class="event-details"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Notification Dropdown -->
+<div id="notifDropdown" class="notification-popup">
+  <strong>Alerts</strong>
+  <ul id="notifList">
+    <!-- Alerts will be injected here -->
+  </ul>
+</div>
+
+
+</body>
+<script src="script.js"></script>
+<footer style="display: flex; flex-direction: column; background-color: black; color: aliceblue; justify-content: center; align-items: center; padding: 1rem;">
+  <p>
+    2025 © All rights reserved.</p>
+    <p>Created under Agnirva Summer Internship Program 2025
+  </p>
+</footer>
+
+
+
+  
+
+</html>

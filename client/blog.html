@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather Blogs</title>
+  <link rel="stylesheet" href="blog.css" />
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+  <div class="layout">
+    
+    <!-- Sidebar -->
+    <aside class="nav-section">
+      <nav>
+        <img src="/static/logo.png" alt="logo" />
+        <ul>
+          <li><a href="index.html"><ion-icon name="home-outline"></ion-icon>&nbsp;&nbsp;<span>Home</span></a></li>
+          <li><a href="#"><ion-icon name="newspaper-outline"></ion-icon>&nbsp;&nbsp;<span>Blogs</span></a></li>
+          <li><a href="#"><ion-icon name="locate-outline"></ion-icon>&nbsp;&nbsp;<span>Map</span></a></li>
+          <li><a href="#"><ion-icon name="camera-outline"></ion-icon>&nbsp;&nbsp;<span>Photos</span></a></li>
+          <li><a href="#"><ion-icon name="videocam-outline"></ion-icon>&nbsp;&nbsp;<span>Videos</span></a></li>
+          <li><a href="#"><ion-icon name="call-outline"></ion-icon>&nbsp;&nbsp;<span>Phone</span></a></li>
+        </ul>
+        <ul class="nav-links">
+          <li><ion-icon name="log-out-outline"></ion-icon><span>Log out</span></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Blog Section -->
+    <main class="blog-container">
+      <h1>Weather Blogs</h1>
+      <div class="blog-list">
+        <div class="blog-list" id="blogList"></div>
+
+<script>
+  fetch('data.json')
+    .then(response => response.json())
+    .then(blogs => {
+      const container = document.getElementById('blogList');
+      blogs.forEach(blog => {
+        const blogCard = `
+          <article class="blog-item" onclick="window.location.href='blog-detail.html?id=${blog.id}'" style="cursor:pointer;">
+            <img src="${blog.image}" alt="${blog.title}">
+            <div class="blog-content">
+              <h2>${blog.title}</h2>
+              <p>${blog.description}</p>
+            </div>
+            
+          </article>
+        `;
+        container.innerHTML += blogCard;
+      });
+    });
+</script>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

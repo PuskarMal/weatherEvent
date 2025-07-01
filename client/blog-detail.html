@@ -1,0 +1,78 @@
+<!-- blog-detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Blog Detail</title>
+  <link rel="stylesheet" href="blog.css" />
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+  <main class="blog-detail">
+    <h1 id="title"></h1>
+    <p id="author"></p>
+    <img id="image" src="" alt="Blog Image" />
+    <p id="bcontent"></p>
+
+    <div class="blog-item">
+      <div class="blog-actions">
+        <button class="like-btn">
+          <ion-icon name="heart-outline"></ion-icon><span> Like</span>
+        </button>
+        <button class="comment-btn">
+          <ion-icon name="chatbubble-outline"></ion-icon> Comment
+        </button>
+        <button class="share-btn">
+          <ion-icon name="share-social-outline"></ion-icon> Share
+        </button>
+      </div>
+
+    </div>
+
+    <div class="comment-box " style="margin-top: 10px; display: flex;">
+      <textarea placeholder="Add a comment..."
+        style="color:white; background-color: rgba(255, 255, 255, 0.2);;"></textarea>
+      <button class="post-comment" style="background-color: rgb(54, 193, 54); color:white; padding: 0 10px 0 10px; font-weight: 600; ">POST</button>
+      
+
+    </div>
+    <div><div class="comment-list"></div></div>
+
+
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const blogIndex = params.get("id");
+
+    fetch("data.json")
+      .then(res => res.json())
+      .then(blogs => {
+        const blog = blogs[blogIndex];
+        if (blog) {
+          document.getElementById("title").textContent = blog.title;
+          document.getElementById("author").textContent = "Written by " + blog.author;
+          img = document.getElementById("image");
+          img.src = blog.image;
+          img.style.width = "100%";
+          img.style.maxWidth = "600px";
+          img.style.height = "auto";
+          img.style.borderRadius = "10px";
+          img.style.display = "block";
+          img.style.margin = "20px auto";
+          document.getElementById("image").alt = blog.title;
+          document.getElementById("bcontent").innerHTML = blog.fullread;
+
+        } else {
+          document.body.innerHTML = "<h2>Blog not found.</h2>";
+        }
+      });
+
+  </script>
+</body>
+<script src="blog.js"></script>
+
+</html>

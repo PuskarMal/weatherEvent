@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather Map Overlay</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      font-family: sans-serif;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 0;
+    }
+
+    .layer-control {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      font-size: 14px;
+      color: #222;
+    }
+
+    .layer-control label {
+      display: block;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating control box -->
+  <div class="layer-control">
+    <strong style="padding-bottom:2rem; ">Weather Layers</strong>
+    <label><input type="checkbox" id="rainLayer"> 🌧 Rain</label>
+    <label><input type="checkbox" id="tempLayer"> 🌡 Temperature</label>
+    <label><input type="checkbox" id="cloudLayer"> ☁️ Clouds</label>
+    <label><input type="checkbox" id="windLayer"> 💨 Wind</label>
+    <label><input type="checkbox" id="pressureLayer"> ☁️ Pressure</label>
+  </div>
+
+  <!-- Map -->
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const apiKey = "f2a2b51233d520da958bd8a8b89f197e";
+
+    const map = L.map("map").setView([20.5937, 78.9629], 5); // India center
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap contributors"
+    }).addTo(map);
+
+    const layers = {
+      rainLayer: L.tileLayer(`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${apiKey}`, { opacity: 1 }),
+      tempLayer: L.tileLayer(`https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${apiKey}`, { opacity: 1 }),
+      cloudLayer: L.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${apiKey}`, { opacity: 1 }),
+      windLayer: L.tileLayer(`https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=${apiKey}`, { opacity: 1 }),
+      windLayer: L.tileLayer(`https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=${apiKey}`, { opacity: 1 })
+      
+    };
+
+    Object.keys(layers).forEach(id => {
+      document.getElementById(id).addEventListener("change", e => {
+        if (e.target.checked) {
+          layers[id].addTo(map);
+        } else {
+          map.removeLayer(layers[id]);
+        }
+      });
+    });
+
+    // Optional: locate user
+    map.locate({ setView: true, maxZoom: 10 });
+    map.on("locationfound", e => {
+      L.circleMarker(e.latlng, {
+        radius: 6,
+        color: "blue"
+      }).addTo(map).bindPopup("You are here").openPopup();
+    });
+  </script>
+</body>
+</html>
