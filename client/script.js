@@ -74,7 +74,7 @@ function fetchWeather(city1) {
       return res.json();
     })
     .then(data => {
-      // ✅ Extract weather data
+      //Extract weather data
       const {
         name,
         coord: { lat, lon },
@@ -86,10 +86,10 @@ function fetchWeather(city1) {
 
       const prettyDesc = description.charAt(0).toUpperCase() + description.slice(1);
 
-      // ✅ Update header span with city
+      // Update header span with city
       document.getElementById("resultSpan").textContent = name;
       //document.getElementById("wind-speed").textContent = humidity;
-      // ✅ Update current weather card
+      // Update current weather card
       resultDiv.innerHTML = `
         
         <div style="padding: 16px; max-width: 300px; box-shadow: 0 2px 8px font-family: sans-serif;">
@@ -120,7 +120,7 @@ function fetchWeather(city1) {
       document.getElementById("wind-deg").innerHTML = `<span>Wind Direction</br>${deg}°</span>`;
       document.getElementById("visibility").innerHTML = `<span>Visibility</br>${visibility} m</span>`;
 
-      // ✅ Then fetch Open-Meteo past 2 days data
+      // Then fetch Open-Meteo past 2 days data
       fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&past_days=2&daily=temperature_2m_max,weathercode&timezone=auto`)
         .then(res => res.json())
         .then(meteo => {
@@ -436,20 +436,20 @@ function renderCalendar() {
                       "July", "August", "September", "October", "November", "December"];
   monthDisplay.textContent = `${monthNames[month]} ${year}`;
 
-  // ✅ Build events lookup map once
+  // Build events lookup map once
   const eventsByDate = events.reduce((acc, e) => {
     if (!acc[e.date]) acc[e.date] = [];
     acc[e.date].push(e.title);
     return acc;
   }, {});
 
-  // ✅ Fill blanks
+  // Fill blanks
   for (let i = 0; i < firstDay; i++) {
     const blank = document.createElement("div");
     calendarGrid.appendChild(blank);
   }
 
-  // ✅ Render day cells
+  // Render day cells
   for (let day = 1; day <= daysInMonth; day++) {
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const cell = document.createElement("div");
@@ -460,7 +460,7 @@ function renderCalendar() {
       cell.classList.add("event-date");
     }
 
-    // ✅ Show events when cell is clicked
+    // Show events when cell is clicked
     cell.addEventListener("click", () => {
       const list = (eventsByDate[dateStr] || [])
         .map(ev => `<li>${ev}</li>`)

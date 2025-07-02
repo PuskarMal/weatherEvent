@@ -635,6 +635,31 @@ form button[type="submit"]:hover {
 .hidden {
   display: none;
 }
+  footer{
+    margin-top:30px;
+    left:0;
+    
+    padding-top:6px;
+    padding-bottom:6px;
+  }
+  footer a{
+    color:aliceblue;
+    font-size:0.9rem;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+ 
+  #quickLinks{
+    display:flex;
+    gap:20px;
+    
+  }
+  footer p{
+    font-size:0.9rem;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  footer b{
+    font-family: Arial, Helvetica, sans-serif;
+  }
 
 /* Show only 3-dots on small screens */
 @media (max-width: 576px) {

@@ -13,5 +13,5 @@ app.use("/api/comments", commentsRouter);
 app.get("/", (_req, res) => res.send("Comment API running ✅"));
 
 app.listen(PORT, () =>
-  console.log(`🚀  API listening at http://localhost:${PORT}`)
+  console.log(`🚀  API listening at https://backendweather-g9j8.onrender.com`)
 );

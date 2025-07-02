@@ -3,24 +3,28 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ------------------------------------------------------------------ */
   /*  Grab blog index from query string                                 */
   /* ------------------------------------------------------------------ */
-  const params     = new URLSearchParams(location.search);
-  const blogIndex  = params.get("id");      // e.g. 0, 1, 2 …
+  const params = new URLSearchParams(location.search);
+  const blogIndex = params.get("id");      // e.g. 0, 1, 2 …
 
   /* ------------------------------------------------------------------ */
   /*  DOM handles (set once)                                            */
   /* ------------------------------------------------------------------ */
-  const titleEl    = document.getElementById("title");
-  const authorEl   = document.getElementById("author");
-  const imageEl    = document.getElementById("image");
-  const bodyEl     = document.getElementById("bcontent");
-  const commentUL  = document.querySelector(".comment-list");   // <–– ID not needed
+  const titleEl = document.getElementById("title");
+  const authorEl = document.getElementById("author");
+  const imageEl = document.getElementById("image");
+  const bodyEl = document.getElementById("bcontent");
+  const commentUL = document.querySelector(".comment-list");   // <–– ID not needed
   const commentBox = document.querySelector(".comment-box");
-  const txtArea    = commentBox.querySelector("textarea");
-  const postBtn    = commentBox.querySelector(".post-comment");
+  const txtArea = commentBox.querySelector("textarea");
+  const postBtn = commentBox.querySelector(".post-comment");
 
   /* ------------------------------------------------------------------ */
   /*  1.  Pull the blog content                                         */
-  /* ------------------------------------------------------------------ */
+
+
+
+
+
   fetch("data.json")
     .then(r => r.json())
     .then(blogs => {
@@ -30,12 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      titleEl.textContent                       = blog.title;
-      authorEl.textContent                      = "Written by " + blog.author;
-      imageEl.src                               = blog.image;
-      imageEl.alt                               = blog.title;
-      bodyEl.innerHTML                          = blog.fullread;
-      bodyEl.style = "text-align:justify"
+      titleEl.textContent = blog.title;
+      authorEl.textContent = "Written by " + blog.author;
+      imageEl.src = blog.image;
+      imageEl.alt = blog.title;
+      bodyEl.innerHTML = blog.fullread;
+      bodyEl.style = "text-align:justify; @media (max-width: 400px) {font-size:2rem;}"
       imageEl.style.cssText = `
         width:100%;max-width:600px;height:auto;
         border-radius:10px;margin:20px auto;display:block;
@@ -52,12 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* like ----------------------------------------------------------- */
     if (e.target.closest(".like-btn")) {
-      const btn   = e.target.closest(".like-btn");
-      const icon  = btn.querySelector("ion-icon");
-      const span  = btn.querySelector("span");
+      const btn = e.target.closest(".like-btn");
+      const icon = btn.querySelector("ion-icon");
+      const span = btn.querySelector("span");
       const liked = icon.name === "heart";
 
-      icon.name   = liked ? "heart-outline" : "heart";
+      icon.name = liked ? "heart-outline" : "heart";
       icon.style.color = liked ? "" : "red";
       span.textContent = liked ? " Like" : " Liked";
     }
@@ -87,10 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!commentText) return;
 
     /* example POST – adjust endpoint if different */
-    fetch(`http://localhost:4000/api/comments/post?id=${blogIndex}`, {
-      method : "POST",
+    fetch(`https://backendweather-g9j8.onrender.com/api/comments/post?id=${blogIndex}`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body   : JSON.stringify({ postId: blogIndex, content: commentText })
+      body: JSON.stringify({ postId: blogIndex, content: commentText })
     })
       .then(r => r.json())      // optional: handle response
       .then(() => {
@@ -104,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /*  4.  Fetch & render comments                                      */
   /* ------------------------------------------------------------------ */
   function loadComments(id) {
-    fetch(`http://localhost:4000/api/comments/all?id=${blogIndex}`)
+    fetch(`https://backendweather-g9j8.onrender.com/api/comments/all?id=${blogIndex}`)
       .then(r => r.json())
       .then(arr => {
         commentUL.innerHTML = "";               // clear old
@@ -114,8 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
         arr.forEach(c => {
-          const div   = document.createElement("div");
-          div.className   = "comment";
+          const div = document.createElement("div");
+          div.className = "comment";
           div.innerHTML = `
   <div class="comment-meta">
     <span class="comment-time">${new Date(c.createdAt).toLocaleString()}</span>
@@ -131,4 +135,11 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(err => console.error("Fetch comments failed:", err));
   }
 });
+
+
+
+
+
+
+
 
